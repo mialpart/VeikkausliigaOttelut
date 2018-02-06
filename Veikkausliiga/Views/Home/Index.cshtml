@@ -1,0 +1,111 @@
+﻿@model IEnumerable<Veikkausliiga.Models.Games>
+@{
+    ViewBag.Title = "Index";
+}
+<!--Header-->
+<header>
+    <div class="header-panel">
+        <div class="div-images">
+            <h1>Veikkausliigan Ottelut</h1>
+        </div>
+        <div class="div-images div-img">
+            <img src="~/Images/hjk.png">
+            <img src="~/Images/ifk.png">
+            <img src="~/Images/ilves.png">
+            <img src="~/Images/FC_JJK.svg.png">
+            <img src="~/Images/sjk.png">
+            <img src="~/Images/fc-inter-logo.png">
+            <img src="~/Images/rops.png">
+        </div>
+    </div>
+</header>
+<!--Header-->
+<!--body div-->
+<div class="div-body">
+    <div class="div=form">
+        <form>
+            <fieldset>
+                <legend>Hae aikaväliltä:</legend>
+                <!--Inputs-->
+                <div class="div-input">
+                    <label>Alkaen :</label>
+                    <input type="text" name="starting-day" class="starting-day">
+                </div>
+                <div class="div-input">
+                    <p>-</p>
+                </div>
+                <div class="div-input">
+                    <label>Loppuen :</label>
+                    <input type="text" name="last-day" class="last-day">
+                </div>
+                <div class="div-input">
+                    <input type="submit" value="Hae" name="submit-button" class="submit-btn">
+                </div>
+                <!--Inputs-->
+            </fieldset>
+        </form>
+    </div>
+    <!--Table, lists all the teams and how the game ended-->
+    <div class="div-table">
+        <div class="div-table-header">
+            <h3>Ottelutaulukko</h3>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <span>#</span>
+                    </th>
+                    <th>
+                        <span>Koti</span>
+                    </th>
+                    <th>
+                        <span>Vieras</span>
+                    </th>
+                    <th>
+                        <span>KP</span>
+                    </th>
+                    <th>
+                        <span>VP</span>
+                    </th>
+                    <th>
+                        <span>PVM</span>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.GameN)</td>
+                <td>@Html.DisplayFor(modelItem => item.HomeG)</td>
+                <td>@Html.DisplayFor(modelItem => item.AwayG)</td>
+                <td>@Html.DisplayFor(modelItem => item.HomeT)</td>
+                <td>@Html.DisplayFor(modelItem => item.AwayT)</td>
+                <td>@Html.DisplayFor(modelItem => item.DateT)</td>
+                <td></td>
+            </tr>
+            }
+                
+            </tbody>
+        </table>
+    </div>
+    <!--Table,  lists all the teams and how the game ended-->
+
+    <div class="div-para">
+        <p>
+            Ohjelmassa haetaan otteluiden tietoja tiettyjen päivämäärien mukaan.</br>
+            Syötä päivämäärät muodossa pp-kk-vvvv suodattaeksesi ottelut tietyltä aikavälitä
+        </p>
+    </div>
+
+</div>
+<!--body div-->
+<!--Footer-->
+<footer>
+    <h5>Author: Mikko Partanen</h5>
+    <h5>Version: 1.0</h5>
+    <h5>Mail: mikko.partanen93@gmail.com</h5>
+</footer>
+<!--Footer-->
