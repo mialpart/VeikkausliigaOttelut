@@ -21,6 +21,12 @@ namespace Veikkausliiga.Controllers
             return View(list);
         }
 
+        /// <summary>
+        /// Listaa joukkueet päivämäärien mukaan. Luodaan lista jossa Games objekteja.
+        /// </summary>
+        /// <param name="start">Alkupäivämäärä</param>
+        /// <param name="end">Loppupäivämäärä</param>
+        /// <returns>Palauttaa listan Games-objekteista</returns>
         public List<Games> Teams(string start, string end)
         {
             string s = start;
@@ -30,60 +36,66 @@ namespace Veikkausliiga.Controllers
 
             if (!String.IsNullOrEmpty(s))
             {
-                
                 sd = DateTime.ParseExact(s, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
             if (!String.IsNullOrEmpty(e))
             {
                 ed = DateTime.ParseExact(e, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
+
             //Haetaan tiedot tiedostosta, ja deserialisoidaan se.
             string file = Server.MapPath("~/App_Data/matches.json");
             string JsonF = System.IO.File.ReadAllText(file);
             JavaScriptSerializer ser = new JavaScriptSerializer();
             var rootObj = ser.Deserialize<List<RootObject>>(JsonF);
-
-
-
+            
             //Luodaan Lista Games objektista
             List<Games> list = new List<Games>();
-            int i = 0;
+            
+            //otteluiden lukumäärä
+            int i = 0; 
+
             //Loopilla haetaan kaikki tarvittavat tiedot tauluun.
             foreach (var item in rootObj)
             {
-
-
                 var homeName = item.HomeTeam.Name;
                 var awayName = item.AwayTeam.Name;
                 var homeGoals = item.HomeGoals;
                 var awayGoals = item.AwayGoals;
                 var date = item.MatchDate;
-                var date2 =date.ToShortDateString();
-                var dt = date2.ToString();
-                //var edt = String.Format("{0}",dt);
 
-                //string[] dateString = dt.Split('/',' ');
-                //DateTime d = Convert.ToDateTime(dateString[1] + "/" + dateString[0] + "/" + dateString[2]);
-
-                //var d = DateTime.ParseExact(dt, "dd/MM/yy", CultureInfo.InvariantCulture);
-                //DateTime d = DateTime.ParseExact(dt,"d/M/yy",CultureInfo.GetCultureInfo("fi-FI").DateTimeFormat);
-
-                if (!(s == "") || !(e == ""))
+                //Listaa ottelut jos vain alkaen input täytetty
+                if (!(s == "")&&(e == ""))
                 {
-
                     if (sd > date  )
-                    {
-                        //list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
-                    }
-                    else list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
-                
-                    if (ed < date )
                     {
                     }
                     else list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
                 }
-                else list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
 
+                //Listaa ottelut jos vain loppuen input täytetty
+                if (!(e == "")&&(s == ""))
+                {
+                    if (ed < date)
+                    {
+                    }
+                    else list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
+                }
+
+                //Listaa ottelut jos molemmat inputit täytetty. Listaa ottelut päivämäärien väliltä.
+                if (!(e == "") && !(s == ""))
+                {
+                    if ((sd < date) && (ed > date))
+                    {
+                        list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
+                    }
+                }
+
+                //Listaa kaikki ottelut jos inputit ovat tyhjiä
+                if ((e == "") && (s == ""))
+                {
+                    list.Add(new Games { GameN = i, HomeT = homeName, AwayT = awayName, HomeG = homeGoals, AwayG = awayGoals, DateT = date });
+                }
 
                 i++;
             }
