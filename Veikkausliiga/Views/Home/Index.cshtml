@@ -1,7 +1,29 @@
 ﻿@model IEnumerable<Veikkausliiga.Models.Games>
+
 @{
     ViewBag.Title = "Index";
 }
+
+@{
+    var msg = "";
+    
+    if (IsPost )
+    {
+        string start = Request.Form["starting-day"];
+        string last = Request.Form["last-day"];
+
+
+        <text>
+            You entered: <br />
+            Company Name: @start <br />
+            Contact Name: @last <br />
+        </text>
+
+
+
+    }
+}
+
 <!--Header-->
 <header>
     <div class="header-panel">
@@ -21,15 +43,19 @@
 </header>
 <!--Header-->
 <!--body div-->
+
 <div class="div-body">
     <div class="div=form">
-        <form>
+
+        <form method="post">
             <fieldset>
                 <legend>Hae aikaväliltä:</legend>
                 <!--Inputs-->
                 <div class="div-input">
                     <label>Alkaen :</label>
                     <input type="text" name="starting-day" class="starting-day">
+                    @*Html.TextBoxFor(model => model.Item2.DateInput)*@
+                    @*Html.ValidationMessageFor(model => model.Item2.DateInput)*@
                 </div>
                 <div class="div-input">
                     <p>-</p>
@@ -37,6 +63,8 @@
                 <div class="div-input">
                     <label>Loppuen :</label>
                     <input type="text" name="last-day" class="last-day">
+                    @*Html.TextBoxFor(model => model.Item2.DateInput)*@
+                    @*@Html.ValidationMessageFor(model => model.Item2.DateInput)*@
                 </div>
                 <div class="div-input">
                     <input type="submit" value="Hae" name="submit-button" class="submit-btn">
@@ -53,7 +81,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>
+                    <th class="count">
                         <span>#</span>
                     </th>
                     <th>
@@ -76,18 +104,18 @@
             </thead>
             <tbody>
                 @foreach (var item in Model)
-            {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.GameN)</td>
-                <td>@Html.DisplayFor(modelItem => item.HomeG)</td>
-                <td>@Html.DisplayFor(modelItem => item.AwayG)</td>
-                <td>@Html.DisplayFor(modelItem => item.HomeT)</td>
-                <td>@Html.DisplayFor(modelItem => item.AwayT)</td>
-                <td>@Html.DisplayFor(modelItem => item.DateT)</td>
-                <td></td>
-            </tr>
-            }
-                
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.GameN)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HomeG)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AwayG)</td>
+                        <td>@Html.DisplayFor(modelItem => item.HomeT)</td>
+                        <td>@Html.DisplayFor(modelItem => item.AwayT)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DateT)</td>
+                        <td></td>
+                    </tr>
+                }
+
             </tbody>
         </table>
     </div>

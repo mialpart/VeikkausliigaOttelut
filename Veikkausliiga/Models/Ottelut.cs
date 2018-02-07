@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Veikkausliiga.Models
 {
@@ -56,6 +57,11 @@ namespace Veikkausliiga.Models
         public int AwayG { get; set; }
         public string HomeT { get; set; }
         public string AwayT { get; set; }
+        
+        //Formatoi data päivämäärän mukaan. Kellon ajat pois
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public DateTime DateT { get; set; }
     }
+
+
 }
