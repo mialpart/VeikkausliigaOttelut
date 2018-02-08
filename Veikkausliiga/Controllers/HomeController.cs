@@ -12,12 +12,35 @@ namespace Veikkausliiga.Controllers
 {
     public class HomeController : Controller
     {
-        
+        /// <summary>
+        /// Index view
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public ActionResult Index(string a, string b)
         {
+            //Otetaan päivämäärät stringiin.
             var s = String.Format("{0}", Request.Form["starting-day"]);
             var e = String.Format("{0}", Request.Form["last-day"]);
-            List<Games> list = Teams(s,e);
+
+            //Splitataan päivät molemmista päivämääräfilttereistä jos mahdollista
+            string[] splitted = s.Split('-');
+            string[] splittedE = e.Split('-');
+            string parseS = s;
+            string parseE = e;
+
+            //Tarkistetaan ettei päivämäärä ole tyhjä, jotta voidaan parsia päivämäärä oikeaan muotoon
+            if (!String.IsNullOrEmpty(s))
+            {
+                parseS = string.Format("{0}/{1}/{2}", splitted[2], splitted[1], splitted[0]);
+            }
+            if (!String.IsNullOrEmpty(e))
+            {
+                parseE = string.Format("{0}/{1}/{2}", splittedE[2], splittedE[1], splittedE[0]);
+            }
+
+            List<Games> list = Teams(parseS,parseE);
             return View(list);
         }
 
@@ -31,14 +54,20 @@ namespace Veikkausliiga.Controllers
         {
             string s = start;
             string e = end;
-            DateTime sd = new DateTime();
-            DateTime ed = new DateTime();
+            DateTime sd = new DateTime(); //alkaen päivä
+            DateTime ed = new DateTime(); //päättyen päivä
 
-            if (!String.IsNullOrEmpty(s))
+            //Tarkistetaan voidaanko parsia DateTime-muotoon.
+            var parsedS = DateTime.TryParseExact(s,"d/M/yyyy", CultureInfo.InvariantCulture,DateTimeStyles.None, out sd);
+            var parsedE = DateTime.TryParseExact(e, "d/M/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out ed);
+
+            //Parsitaan DateTimeksi mikäli parsiminen onnistuu ja alkupäivämäärä ei ole tyhjä.
+            if (!String.IsNullOrEmpty(s) && parsedS == true)
             {
                 sd = DateTime.ParseExact(s, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
-            if (!String.IsNullOrEmpty(e))
+            
+            if (!String.IsNullOrEmpty(e) && parsedE == true)
             {
                 ed = DateTime.ParseExact(e, "d/M/yyyy", CultureInfo.InvariantCulture);
             }
@@ -99,7 +128,7 @@ namespace Veikkausliiga.Controllers
 
                 i++;
             }
-            return list;
+            return list; //Palautetaan lista jossa kaikki ottelut tietyltä aikaväliltä
         }
     }
 }

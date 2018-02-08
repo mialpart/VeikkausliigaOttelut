@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Veikkausliiga.Models
 {
+    /// <summary>
+    /// Kotijoukkueen luokka
+    /// </summary>
     public class HomeTeam
     {
         public int Id { get; set; }
@@ -17,6 +20,9 @@ namespace Veikkausliiga.Models
         public string Message { get; set; }
     }
 
+    /// <summary>
+    /// Vastustajajoukkueen luokka
+    /// </summary>
     public class AwayTeam
     {
         public int Id { get; set; }
@@ -28,6 +34,9 @@ namespace Veikkausliiga.Models
         public string Message { get; set; }
     }
 
+    /// <summary>
+    /// RootObject.
+    /// </summary>
     public class RootObject
     {
         public int Id { get; set; }
@@ -50,18 +59,27 @@ namespace Veikkausliiga.Models
         public string League { get; set; }
     }
 
+    /// <summary>
+    /// Luokka peli-objektien luomiseen, jotta saadaan tiedot taulukkoon.
+    /// </summary>
     public class Games
     {
-        public int GameN { get; set; }
-        public int HomeG { get; set; }
-        public int AwayG { get; set; }
+        //Kertoo monesko ottelu taulukossa
+        public int GameN { get; set; } 
+        //Kotijoukkue
         public string HomeT { get; set; }
+        //Vierasjoukkue
         public string AwayT { get; set; }
+        //Kotijoukkueen pisteet
+        public int HomeG { get; set; }
+        //Vierailijajoukkueen pisteet
+        public int AwayG { get; set; }
         
-        //Formatoi data päivämäärän mukaan. Kellon ajat pois
+        //Formatoi data päivämäärän mukaan. Kellon ajat pois näkyvistä taulukossa.
         [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
         public DateTime DateT { get; set; }
     }
+
 
 
 }
