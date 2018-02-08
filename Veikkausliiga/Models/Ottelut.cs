@@ -74,6 +74,8 @@ namespace Veikkausliiga.Models
         public int HomeG { get; set; }
         //Vierailijajoukkueen pisteet
         public int AwayG { get; set; }
+        //Tulos
+        public string GameEnding { get; set; }
         
         //Formatoi data päivämäärän mukaan. Kellon ajat pois näkyvistä taulukossa.
         [DisplayFormat(DataFormatString = "{0:dd/MM/yy}", ApplyFormatInEditMode = true)]
